@@ -1,0 +1,143 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<app-header></app-header>
+<div *ngIf="cartItems.length > 0; else elseblock">
+    <body>
+        <div class="body">
+            <div class="items-container">
+                <h2>Your Cart</h2>
+                <div class="items" *ngFor="let products of cartItems">
+                        <div class="img-container">
+                            <img src={{products.product.img_url}} alt="img">
+                        </div>
+                        <div class="text">
+                            <p style="font-size: larger;"><b>{{products.product.name}}</b></p>
+                            <p>{{products.product.description}}</p>
+                            <b><p style="font-size: larger;">${{products.product.price}}</p></b>
+                            <p>Quantity: {{products.quantity}}</p>
+                        </div>
+                        <div class="remove-container">
+                            <button class="remove" (click)="removeFromCart(products.product.id)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+                            </svg></button>
+                        </div>
+                </div>
+            </div>
+            <div class="order-sum">
+                <h3>Order Summary</h3>
+                <div class="prices">
+                    <div class="prices-text">
+                        <p style="font-size: larger;" id="p">Price: </p>
+                        <p style="font-size: larger;" id="p">Shipping: </p>
+                        <p style="font-size: larger;">Tax: </p>
+                    </div>
+                    <div class="prices-numbers">
+                        <p style="font-size: larger;" id="p">${{price}}</p>
+                        <p style="font-size: larger;" id="p">$15 </p>
+                        <p style="font-size: larger;">$20 </p>
+                    </div>
+                </div>
+                <div class="total" style="font-size: larger; font-weight: 600;"> 
+                    <div class="total-text">
+                        <p>Total:</p>
+                    </div>
+                    <div class="total-number">
+                        <p>${{price + 15 + 20}}</p>
+                    </div>
+                </div>
+                <button class="checkout-btn" (click)="openModal()">Checkout</button>
+            </div>
+        </div>
+        <app-footer></app-footer>
+    </body> 
+</div>
+
+
+<ng-template #elseblock>
+    <div class="body2">
+        <h2>Your Cart</h2>
+        <p>There are no items in your cart!</p>
+        <a href="/products" (click)="productSearch('Products')">Click here to continue shopping</a>
+    </div><app-footer></app-footer>
+</ng-template>
+
+<div id="myModal" class="modal" [ngClass]="{'show': isModalOpen}">
+    <div class="modal-content">
+        <span class="close" (click)="closeModal()">&times;</span>
+        <h3>Choose Payment Method</h3>
+        <div style="border-bottom: .5px solid black;"></div>
+            <form (submit)="submitForm()">
+                <label class="form-label" for="form6Example1" required>First name</label>
+                <input type="text" id="form6Example1" class="formField" [(ngModel)]="formData.firstName" name="firstName"/><br>
+            
+                <label class="form-label" for="form6Example2">Last name</label>
+                <input type="text" id="form6Example2" class="formField" [(ngModel)]="formData.lastName" name="lastName" /><br>
+            
+                <label class="form-label" for="form6Example4">Address</label>
+                <input type="text" id="form6Example4" class="formField" [(ngModel)]="formData.address" name="address" /><br>
+            
+                <label class="form-label" for="form6Example5">Email</label>
+                <input type="email" id="form6Example5" class="formField" [(ngModel)]="formData.email" name="email" /><br>
+            
+                <label class="form-label" for="form6Example6">Phone</label>
+                <input type="number" id="form6Example6" class="formField" [(ngModel)]="formData.phone" name="phone" /><br>
+
+                <hr class="my-4" />
+                
+                <div class="ship">
+                    <input class="form-check-input" type="checkbox" value="" id="checkoutForm1" />
+                    <label class="form-check-label" for="checkoutForm1">
+                    Shipping address is the same as my billing address
+                    </label>
+                </div>
+                <hr class="my-4" />
+
+                <h5 class="mb-4">Payment</h5>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="checkoutForm3"
+                        checked />
+                    <label class="form-check-label" for="checkoutForm3">
+                        Credit card
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="checkoutForm4" />
+                    <label class="form-check-label" for="checkoutForm4">
+                        Debit card
+                    </label>
+                </div> <br>
+  
+                <label class="form-label" for="formNameOnCard">Name on card</label>
+                <input type="text" id="formNameOnCard" class="formField" />
+                
+                <label class="form-label" for="formCardNumber">Credit card number</label>
+                <input type="text" id="formCardNumber" class="formField" />
+  
+                <div class="row mb-5">
+                    <div class="col-5">
+                        <div data-mdb-input-init class="form-outline">
+                            <label class="form-label" for="formExpiration">Expiration</label>
+                            <input type="text" id="formExpiration" class="formField" />
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div data-mdb-input-init class="form-outline">
+                        <label class="form-label" for="formCVV">CVV</label>
+                        <input type="text" id="formCVV" class="formField" />
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block">Purchase</button>
+            </form>
+    </div>
+</div>
+
+</html>
