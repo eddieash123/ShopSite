@@ -28,7 +28,7 @@
               "src/styles.css"
             ],
             "scripts": [],
-            "baseHref": "/ShopSite-FrontEnd"
+            "baseHref": "/ShopSite-FrontEnd/"
           },
           "configurations": {
             "production": {
