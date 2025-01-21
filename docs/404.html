@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="refresh" content="0; url=./index.html">
-</head>
-<body>
-</body>
-</html>
-
+<script>
+    // Redirect unknown routes to index.html, preserving the path
+    const path = window.location.pathname.replace('/your-repo-name/', '');
+    window.location.href = '/your-repo-name/index.html?' + path;
+  </script>
